@@ -11,4 +11,4 @@ CREATE TABLE cats (
 
 INSERT INTO cats (name, about) VALUES ('Cool Wiskerz', 'Chillin & meowin iz');
 INSERT INTO cats (name, about) VALUES ('Jazzie', 'Fish bonez are my deal');
-INSERT INTO cats (name, about) VALUES ('Simba', '');
+INSERT INTO cats (name, about) VALUES ('Simba', 'Hakuna matata');
