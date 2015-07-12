@@ -1,0 +1,41 @@
+    location /<%= route %> {
+      postgres_pass database;
+      rds_json on;
+
+      # GET
+      # usage: CURL http://localhost:8888/<%= route %>
+      postgres_query GET "<%= get_all %>";
+
+      # POST
+      # usage: CURL -X POST "http://localhost:8888/<%= route %>?name=9livez&about=I've got nine lives"
+      <% post_params.each do |param| %>
+      <%= "postgres_escape #{param};" %>
+      <% end %>
+      postgres_query   POST   "<%= post_model %>";
+      postgres_rewrite POST   changes 201;
+    }
+
+    location ~ /<%= route %>/(?<id>\d+) {
+      postgres_pass database;
+      rds_json on;
+
+      # GET
+      # usage: CURL http://localhost:8888/<%= route %>/1
+      postgres_escape  $escaped_id $id;
+      postgres_query   HEAD GET "<%= get_model %>";
+      postgres_rewrite HEAD GET no_rows 410;
+
+      # PUT
+      # usage: CURL -X PUT "http://localhost:8888/cats/1?name=Hot Wiskerz&about=Sweatin & meowin"
+      <% put_params.each do |param| %>
+      <%= "postgres_escape #{param};" %>
+      <% end %>
+      postgres_query   PUT "<%= update_model %>";
+      postgres_rewrite PUT no_changes 410;
+
+      # DELETE
+      # usage: curl -X DELETE http://localhost:8888/<%= route %>/1
+      postgres_query   DELETE "<%= destroy_model %>";
+      postgres_rewrite DELETE no_changes 410;
+      postgres_rewrite DELETE changes 204;
+    }

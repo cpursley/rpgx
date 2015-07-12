@@ -6,6 +6,7 @@ require 'erb'
 database_name = 'catdb'
 database_user = 'chase'
 base_model    = 'cats'
+route         = base_model
 
 # data
 params = %w(name about)
@@ -24,10 +25,11 @@ get_model     = "SELECT * FROM #{base_model} WHERE id=$escaped_id"
 update_model  = "UPDATE #{base_model} SET #{update} WHERE id=$escaped_id RETURNING *"
 destroy_model = "DELETE FROM #{base_model} WHERE id=$escaped_id"
 
+# routes
+route_template = ERB.new(File.read("conf/_route.erb"))
+route_content  = route_template.result(binding)
+File.open("conf/_route", "w") { |file| file.puts route_content }
 
-# run in console to create nginx routes: `ruby routes.rb`
-nginx_conf = ERB.new(File.read("conf/nginx.conf.erb"))
-
-content = nginx_conf.result(binding)
-
-File.open("conf/nginx.conf", "w") { |file| file.puts content }
+nginx_template = ERB.new(File.read("conf/nginx.conf.erb"))
+nginx_conf    = nginx_template.result(binding)
+File.open("conf/nginx.conf", "w") { |file| file.puts nginx_conf }

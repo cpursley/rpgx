@@ -1,5 +1,6 @@
-DROP DATABASE IF EXISTS catsdb;
-CREATE DATABASE catsdb WITH OWNER chase ENCODING 'UTF8';
+DROP DATABASE IF EXISTS catdb;
+CREATE DATABASE catdb WITH OWNER chase ENCODING 'UTF8';
+\connect catdb
 
 DROP TABLE IF EXISTS cats;
 CREATE TABLE cats (
@@ -9,6 +10,5 @@ CREATE TABLE cats (
 	created_at timestamp DEFAULT current_timestamp
 );
 
-INSERT INTO cats (name, about) VALUES ('Cool Wiskerz', 'Chillin & meowin');
+INSERT INTO cats (name, about) VALUES ('Cool Wiskerz', 'Chillin & meowin iz');
 INSERT INTO cats (name, about) VALUES ('Jazzie', 'Fish bonez are my deal');
-INSERT INTO cats (name, about) VALUES ('Simba', 'Hakuna matata');
