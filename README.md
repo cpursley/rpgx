@@ -10,7 +10,8 @@ With this setup, Ruby is used similar to a static generator and not needed at ru
 ## Getting Started
 
 - Install OpenResty: [http://openresty.org/](http://openresty.org/)
-- Seed database: `$ psql -U chase -d catdb -f db/catdb.sql`
+- Seed database: `$ psql -U username -f db/catdb.sql`
+- Create the routes: `$ ruby routes.rb`
 - Start nginx: (this depends on your method of installation)
 
 ## TODO

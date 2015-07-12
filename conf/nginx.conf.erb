@@ -1,0 +1,64 @@
+worker_processes  8;
+error_log logs/error.log;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  upstream database {
+    postgres_server 127.0.0.1 dbname=<%= database_name %> user=<%= database_user %> password=;
+  }
+
+  server {
+    listen 8888;
+
+    location = '/hello' {
+      # usage: CURL http://localhost:8888/hello?person=<%= database_user %>
+      set_unescape_uri $person $arg_person;
+      echo "hello, $person!";
+    }
+
+    location /<%= base_model %> {
+      postgres_pass database;
+      rds_json on;
+
+      # GET
+      # usage: CURL http://localhost:8888/<%= base_model %>
+      postgres_query GET "<%= get_all %>";
+
+      # POST
+      # usage: CURL -X POST "http://localhost:8888/<%= base_model %>?name=9livez&about=I've got nine lives"
+      <% post_params.each do |param| %>
+      <%= "postgres_escape #{param};" %>
+      <% end %>
+      postgres_query   POST   "<%= post_model %>";
+      postgres_rewrite POST   changes 201;
+    }
+
+    location ~ /<%= base_model %>/(?<id>\d+) {
+      postgres_pass database;
+      rds_json on;
+
+      # GET
+      # usage: CURL -X PUT "http://localhost:8888/<%= base_model %>/1?name=Hot Wiskerz&about=Sweatin & meowin"
+      postgres_escape  $escaped_id $id;
+      postgres_query   HEAD GET "<%= get_model %>";
+      postgres_rewrite HEAD GET no_rows 410;
+
+      # PUT
+      # usage: curl -X DELETE http://localhost:8888/<%= base_model %>/1
+      <% put_params.each do |param| %>
+      <%= "postgres_escape #{param};" %>
+      <% end %>
+      postgres_query   PUT "<%= update_model %>";
+      postgres_rewrite PUT no_changes 410;
+
+      # DELETE
+      # usage: curl -X DELETE http://localhost:8888/<%= base_model %>/1
+      postgres_query   DELETE "<%= destroy_model %>";
+      postgres_rewrite DELETE no_changes 410;
+      postgres_rewrite DELETE changes 204;
+    }
+  }
+}
