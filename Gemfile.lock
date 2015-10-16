@@ -1,8 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    sequel (3.20.0)
+    sql-maker (1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  sequel
+  sql-maker
+
+BUNDLED WITH
+   1.10.6
