@@ -13,17 +13,21 @@ DB = Sequel.postgres(
   :database => "#{database_name}"
 )
 
-# DB.create_table :cats do
-#   primary_key :id
-#   String      :name,  null: false, size: 255
-#   Integer     :karma, null: false, default: 0
-#   FalseClass  :vip
-# end
+# Models
+DB.create_table! :cats do
+  primary_key :id
+  String      :name,  null: false, size: 255
+  Integer     :karma, null: false, default: 0
+  FalseClass  :vip
+end
 
-# cats = DB.from(:cats)
-# cats.insert(name: "Scratch", karma: 89, vip: true)
-# cats.insert(name: "Meow", karma: 105, vip: false)
-# cats.insert(name: 'Felix', karma: 10, vip: false)
+# Views
+DB.create_or_replace_view :cats_view, DB[:cats].limit(50)
+
+cats = DB.from(:cats)
+cats.insert(name: "Scratch", karma: 89, vip: true)
+cats.insert(name: "Meow", karma: 105, vip: false)
+cats.insert(name: 'Felix', karma: 10, vip: false)
 
 class Cat < Sequel::Model
   @cats   = self.from(:cats)
@@ -31,7 +35,7 @@ class Cat < Sequel::Model
   @id = ['id']
 
   def self.get_cats
-    resty @cats.sql
+    resty DB[:cats_view].sql
   end
 
   def self.create_cat

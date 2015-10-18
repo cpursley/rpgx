@@ -13,5 +13,34 @@ http {
   server {
     listen 8888;
 <%= route_content %>
+    # HTTP Error Codes
+    error_page 400 @400;
+    location @400 { echo '{"error":{ "code": 400, "message": "Bad Request" }}'; }
+    error_page 401 @401;
+    location @401 { echo '{"error":{ "code": 401, "message": "Unauthorized" }}'; }
+    error_page 403 @403;
+    location @403 { echo '{"error":{ "code": 403, "message": "Forbidden" }}'; }
+    error_page 404 @404;
+    location @404 { echo '{"error":{ "code": 404, "message": "Not Found" }}'; }
+    error_page 405 @405;
+    location @405 { echo '{"error":{ "code": 404, "message": "Method Not Allowed" }}'; }
+    error_page 406 @406;
+    location @406 { echo '{"error":{ "code": 406, "message": "Not Acceptable" }}'; }
+    error_page 407 @407;
+    location @407 { echo '{"error":{ "code": 407, "message": "Proxy Authentication Required" }}'; }
+    error_page 410 @410;
+    location @410 { echo '{"error":{ "code": 410, "message": "Gone" }}'; }
+    error_page 412 @412;
+    location @412 { echo '{"error":{ "code": 412, "message": "Precondition Failed" }}'; }
+    error_page 415 @415;
+    location @415 { echo '{"error":{ "code": 415, "message": "Unsupported Media Type" }}'; }
+    error_page 500 @500;
+    location @500 { echo '{"error":{ "code": 500, "message": "Internal Server Error" }}'; }
+    error_page 501 @501;
+    location @501 { echo '{"error":{ "code": 501, "message": "Not Implemented" }}'; }
+    error_page 502 @502;
+    location @502 { echo '{"error":{ "code": 502, "message": "Bad Gateway" }}'; }
+    error_page 504 @504;
+    location @504 { echo '{"error":{ "code": 504, "message": "Gateway Timeout" }}'; }
   }
 }

@@ -1,6 +1,7 @@
     location /<%= route[:name] %> {
       postgres_pass database;
       rds_json on;
+      rds_json_root 'data';
     <% unless route[:handlers][:get_all].nil? %>
       # GET
       # usage: CURL http://localhost:8888/<%= route[:route] %>
@@ -20,6 +21,7 @@
     location ~ /<%= route[:name] %>/(?<id>\d+) {
       postgres_pass database;
       rds_json on;
+      rds_json_root 'data';
     <%# unless route[:handlers][:get].nil? %>
       # GET
       # usage: CURL http://localhost:8888/<%= route[:name] %>/1
