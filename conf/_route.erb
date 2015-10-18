@@ -10,7 +10,7 @@
     <%# unless route[:handlers][:post].nil? %>
       # POST
       # usage: CURL -X POST "http://localhost:8888/<%= route[:name] %>?name=9livez&about=I've got nine lives"
-      <% mapped_params.each do |param| %><%= "postgres_escape #{param};" %>
+      <% escape_params(route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
       <% end %>
       postgres_query   POST   "<%= route[:handlers][:post] %>";
       postgres_rewrite POST   changes 201;
@@ -30,7 +30,7 @@
     <% unless route[:handlers][:put].nil? %>
       # PUT
       # usage: CURL -X PUT "http://localhost:8888/cats/1?name=Hot Wiskerz&about=Sweatin & meowin"
-      <% mapped_params.each do |param| %><%= "postgres_escape #{param};" %>
+      <% escape_params(route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
       <% end %>
       postgres_query   PUT "<%= route[:handlers][:put] %>";
       postgres_rewrite PUT no_changes 410;

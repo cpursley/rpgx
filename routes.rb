@@ -1,8 +1,8 @@
 require 'erb'
-require 'active_record'
+require 'sequel'
 require './app/models/cat.rb'
 
-# # DB Config
+# Config
 config = {
   :database => {
     name:     'catdb',
@@ -11,28 +11,25 @@ config = {
   }
 }
 
-# data
-params = %w(name karma vip)
-# params
-mapped_params = params.map { |param| "$#{param} $arg_#{param}" }
-
-def resty(query)
-  query.to_sql.tr(%q{"'}, '')
-end
-
-# This is the rudimentary predecessor to a "Routes" DSL
+# Predecessor to a "Routes" DSL
 resources = {
   :cats => {
     name: 'cats',
+    params: %w(name karma vip),
     handlers: {
-      get_all: resty(Cat.get_cats),
-      post:    resty(Cat.create_cat),
-      get:     resty(Cat.get_cat),
-      put:     resty(Cat.update_cat),
-      delete:  resty(Cat.destroy_cat)
+      get_all: Cat.get_cats,
+      post:    Cat.create_cat,
+      get:     Cat.get_cat,
+      put:     Cat.update_cat,
+      delete:  Cat.delete_cat
     }
   }
 }
+
+# route utility methods
+def escape_params(params)
+  params.map { |param| "$escaped_#{param} $arg_#{param}" }
+end
 
 # how can we loop through partials for multiple routes??
 route = resources[:cats]
@@ -47,4 +44,5 @@ nginx_conf     = nginx_template.result(binding)
 File.open("conf/nginx.conf", "w") { |file| file.puts nginx_conf }
 puts "#{route[:name].capitalize} routes created..."
 
-puts resty(Cat.destroy_cat)
+# puts resty(Cat.get_cats)
+puts Cat.get_cat
