@@ -1,61 +1,50 @@
 require 'erb'
-require 'sequel'
-require 'sql-maker'
+require 'active_record'
+require './app/models/cat.rb'
 
-# This is the rudimentary predecessor to a "Routes" DSL
-
-# DB Config
-database_name = 'catdb'
-database_user = 'chase'
-DB = Sequel.connect(
-  :adapter=>  'postgres',
-  :host=>     'localhost',
-  :database=> "#{database_name}",
-  :user=>     "#{database_user}",
-  :password=> '',
-  :port=>     '5432'
-)
-
-table_name    = 'cats'
-route         = table_name
+# # DB Config
+config = {
+  :database => {
+    name:     'catdb',
+    user:     'chase',
+    password: ''
+  }
+}
 
 # data
-params = %w(name about)
-joined_params = params.join(",")
-values = params.map { |param| "$#{param}" }.join(",")
-update = params.map { |param| "#{param}=$#{param}" }.join(",")
-
+params = %w(name karma vip)
 # params
-post_params = params.map { |param| "$#{param} $arg_#{param}" }
-put_params  = post_params
+mapped_params = params.map { |param| "$#{param} $arg_#{param}" }
 
-# queries
-sql_builder = SQL::Maker::Select.new(:quote_char => '"', :auto_bind => true)
-
-def all(sql_builder, table_name)
-  sql_builder.add_select("#{table_name}.*")
-             .add_from("#{table_name}")
-             .add_where("#{table_name}.deleted_at" => nil)
-             .as_sql
-             .tr('"', '')
+def resty(query)
+  query.to_sql.tr(%q{"'}, '')
 end
 
-get_all = all(sql_builder, table_name)
+# This is the rudimentary predecessor to a "Routes" DSL
+resources = {
+  :cats => {
+    name: 'cats',
+    handlers: {
+      get_all: resty(Cat.get_cats),
+      post:    resty(Cat.create_cat),
+      get:     resty(Cat.get_cat),
+      put:     resty(Cat.update_cat),
+      delete:  resty(Cat.destroy_cat)
+    }
+  }
+}
 
-post    = "INSERT INTO #{table_name} (joined_params) VALUES (#{values}) RETURNING *"
-get     = "SELECT #{table_name}.* FROM #{table_name} WHERE #{table_name}.deleted_at IS NULL AND #{table_name}.id=$escaped_id LIMIT 1"
-update  = "UPDATE #{table_name} SET #{update} WHERE #{table_name}.id=$escaped_id RETURNING *"
-destroy = "DELETE FROM #{table_name} WHERE id=$escaped_id"
+# how can we loop through partials for multiple routes??
+route = resources[:cats]
 
 # routes
 route_template = ERB.new(File.read("conf/_route.erb"))
-route_content_1  = route_template.result(binding)
-route_contents = []
-route_contents << route_content_1
-route_contents.each do |route_content|
-  File.open("conf/_route_#{route}", "w") { |file| file.puts route_content }
-end
+route_content  = route_template.result(binding)
+File.open("conf/_route", "w") { |file| file.puts route_content }
 
 nginx_template = ERB.new(File.read("conf/nginx.conf.erb"))
-nginx_conf    = nginx_template.result(binding)
+nginx_conf     = nginx_template.result(binding)
 File.open("conf/nginx.conf", "w") { |file| file.puts nginx_conf }
+puts "#{route[:name].capitalize} routes created..."
+
+puts resty(Cat.destroy_cat)

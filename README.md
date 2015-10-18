@@ -10,10 +10,12 @@ With this setup, Ruby is used similar to a static generator and not needed at ru
 ## Getting Started
 
 - Install OpenResty: [http://openresty.org/](http://openresty.org/)
+- brew install homebrew/nginx/openresty --with-postgresql
 - Seed database: `$ psql -U chase -f db/catdb.sql`
 - Create the routes: `$ ruby routes.rb`
-- Start nginx: (this depends on your method of installation)
-- alias "rpgx-start"="/usr/local/openresty/nginx/sbin/nginx -p `pwd`/ -c conf/nginx.conf"
+- Start: sudo openresty -p `pwd`/ -c conf/nginx.conf
+- Stop: sudo openresty -s stop
+
 
 ## TODO
 

@@ -2,5 +2,6 @@ source 'https://rubygems.org'
 
 ruby '2.2.0'
 
-gem 'sequel'
-gem 'sql-maker'
+gem 'pg'
+gem 'activerecord'
+gem 'squeel'

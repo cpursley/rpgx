@@ -5,10 +5,11 @@ Name: RubyResty ?
 
 - Stand alone gem for route DSL ?
 - Route DSL + data ?
+- "MPQ": Model (PG Schema), Presenter (PG View), Query (PG Query)
 
 ### General SQL/Postgres
 
-- "This is an experimental build of a simple "twitter" application in Postgres. The goal is to push as much logic into the database as possible. This includes contraints, validations, functions, and triggers!": https://github.com/shuber/postgres-twitter
+- "This is an experimental build of a simple "twitter" application in Postgres. The goal is to push as much logic into the database as possible. This includes constraints, validations, functions, and triggers!": https://github.com/shuber/postgres-twitter
 
 - https://stackoverflow.com/questions/9789736/how-to-implement-a-many-to-many-relationship-in-postgresql
 
