@@ -1,33 +1,6 @@
 require 'active_record'
 require 'sequel'
-
-# # DB Config
-database_name = 'catdb'
-database_user = 'chase'
-
-DB = Sequel.postgres(
-  :user     => "#{database_user}",
-  :password => "",
-  :host     => "localhost",
-  :port     => '5432',
-  :database => "#{database_name}"
-)
-
-# Models
-DB.create_table! :cats do
-  primary_key :id
-  String      :name,  null: false, size: 255
-  Integer     :karma, null: false, default: 0
-  FalseClass  :vip
-end
-
-# Views
-DB.create_or_replace_view :cats_view, DB[:cats].limit(50)
-
-cats = DB.from(:cats)
-cats.insert(name: "Scratch", karma: 89, vip: true)
-cats.insert(name: "Meow", karma: 105, vip: false)
-cats.insert(name: 'Felix', karma: 10, vip: false)
+require './config/database.rb'
 
 class Cat < Sequel::Model
   @cats   = self.from(:cats)
@@ -55,7 +28,7 @@ class Cat < Sequel::Model
   end
 
   private
-  # handler utility methods
+  # handler utility methods ~ move to lib library module
   def self.resty(query)
     query.tr(%q{"'}, '')
   end

@@ -1,13 +1,16 @@
 require 'erb'
 require 'sequel'
-require './app/models/cat.rb'
+require './config/database.rb'
+require_relative 'models/cat.rb'
 
-# Config
+# Config ~ how can we bring this from config file
 config = {
   :database => {
-    name:     'catdb',
     user:     'chase',
-    password: ''
+    password: '',
+    host:     'localhost',
+    port:     '5432',
+    name:     'catdb'
   }
 }
 
@@ -35,14 +38,14 @@ end
 route = resources[:cats]
 
 # routes
-route_template = ERB.new(File.read("conf/_route.erb"))
+route_template = ERB.new(File.read("lib/nginx/conf/_route.erb"))
 route_content  = route_template.result(binding)
-File.open("conf/_route", "w") { |file| file.puts route_content }
+File.open("lib/nginx/conf/_route", "w") { |file| file.puts route_content }
 
-nginx_template = ERB.new(File.read("conf/nginx.conf.erb"))
+nginx_template = ERB.new(File.read("lib/nginx/conf/nginx.conf.erb"))
 nginx_conf     = nginx_template.result(binding)
-File.open("conf/nginx.conf", "w") { |file| file.puts nginx_conf }
+File.open("lib/nginx/conf/nginx.conf", "w") { |file| file.puts nginx_conf }
 puts "#{route[:name].capitalize} routes created..."
 
 # puts resty(Cat.get_cats)
-puts Cat.get_cat
+# puts config[:database][:user]
