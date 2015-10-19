@@ -1,15 +1,6 @@
 # http://obfuscurity.com/2011/11/Sequel-Migrations-on-Heroku
 require 'sequel'
-database_name = 'catdb'
-database_user = 'chase'
-
-DB = Sequel.postgres(
-  :user     => "#{database_user}",
-  :password => "",
-  :host     => "localhost",
-  :port     => '5432',
-  :database => "#{database_name}"
-)
+require './config/database.rb'
 
 namespace :db do
   require 'sequel'
