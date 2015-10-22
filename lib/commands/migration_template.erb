@@ -2,11 +2,11 @@
 
 Sequel.migration do
   up do
-    DB.create_table <%= ":#{name}" %> do
-    end
+    # DB.create_table :table_name do
+    # end
   end
 
   down do
-    drop_table(<%= ":#{name}" %>)
+    # drop_table :table_name
   end
 end
