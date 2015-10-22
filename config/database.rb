@@ -1,6 +1,6 @@
 require 'sequel'
 
-config = {
+Config = {
   :database => {
     user:     'chase',
     password: '',
@@ -11,9 +11,9 @@ config = {
 }
 
 DB = Sequel.postgres(
-  user:     config[:database][:user],
-  password: config[:database][:password],
-  host:     config[:database][:host],
-  port:     config[:database][:port],
-  database: config[:database][:name]
+  user:     Config[:database][:user],
+  password: Config[:database][:password],
+  host:     Config[:database][:host],
+  port:     Config[:database][:port],
+  database: Config[:database][:name]
 )
