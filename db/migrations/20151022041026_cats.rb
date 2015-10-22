@@ -1,4 +1,4 @@
-# Migration: 585605421_cats
+# Migration: 20151022041026_cats
 
 Sequel.migration do
   up do
