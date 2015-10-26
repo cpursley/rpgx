@@ -1,7 +1,13 @@
 require 'fileutils'
 require 'erb'
 
-# see https://github.com/bellycard/napa/commit/122ef4d489871b73e7f0711a41c9781283e03619
+# how can we alias thor with resty ?? i.e., resty generate:migration cats
+# refactor like https://github.com/bellycard/napa/commit/122ef4d489871b73e7f0711a41c9781283e03619
+
+# options ?
+#  - create_table, name, attributes
+#  - create_view, name, attributes
+# perhaps: resty generate:table Cat name:string karma:integer vip:boolean
 
 # class Generate < Thor
 class Generate < Thor

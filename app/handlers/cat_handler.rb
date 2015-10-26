@@ -2,7 +2,7 @@ require 'active_record'
 require 'sequel'
 require './config/database.rb'
 
-class Cat < Sequel::Model
+class CatHandler < Sequel::Model
   @cats   = self.from(:cats)
   @params = %w(name karma vip)
   @id = ['id']
@@ -25,6 +25,11 @@ class Cat < Sequel::Model
 
   def self.delete_cat
     resty @cats.where(hash_params(@id)).delete_sql
+  end
+
+  # turn into let
+  def self.params
+    @params
   end
 
   private

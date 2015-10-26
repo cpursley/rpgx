@@ -1,48 +1,48 @@
-    location /<%= route[:name] %> {
+  location /<%= @route[:name] %> {
       postgres_pass database;
       rds_json on;
       rds_json_root 'data';
-    <% unless route[:handlers][:get_all].nil? %>
+    <% unless @route[:handlers][:get_all].nil? %>
       # GET
-      # usage: CURL http://localhost:8888/<%= route[:route] %>
-      postgres_query GET "<%= route[:handlers][:get_all] %>";
+      # usage: CURL http://localhost:8888/<%= @route[:route] %>
+      postgres_query GET "<%= @route[:handlers][:get_all] %>";
       postgres_rewrite HEAD GET no_rows 404;
     <% end %>
-    <%# unless route[:handlers][:post].nil? %>
+    <% unless @route[:handlers][:post].nil? %>
       # POST
-      # usage: CURL -X POST "http://localhost:8888/<%= route[:name] %>?name=9livez&about=I've got nine lives"
-      <% escape_params(route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
+      # usage: CURL -X POST "http://localhost:8888/<%= @route[:name] %>?name=9livez&about=I've got nine lives"
+      <% escape_params(@route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
       <% end %>
-      postgres_query   POST   "<%= route[:handlers][:post] %>";
+      postgres_query   POST   "<%= @route[:handlers][:post] %>";
       postgres_rewrite POST   changes 201;
-    <%# end %>
+    <% end %>
     }
-  <%# unless route[:handlers][:get].nil? || route[:handlers][:put].nil? || route[:handlers][:delete].nil? %>
-    location ~ /<%= route[:name] %>/(?<id>\d+) {
+  <% unless @route[:handlers][:get].nil? || @route[:handlers][:put].nil? || @route[:handlers][:delete].nil? %>
+    location ~ /<%= @route[:name] %>/(?<id>\d+) {
       postgres_pass database;
       rds_json on;
       rds_json_root 'data';
-    <%# unless route[:handlers][:get].nil? %>
+    <% unless @route[:handlers][:get].nil? %>
       # GET
-      # usage: CURL http://localhost:8888/<%= route[:name] %>/1
+      # usage: CURL http://localhost:8888/<%= @route[:name] %>/1
       postgres_escape  $escaped_id $id;
-      postgres_query   HEAD GET "<%= route[:handlers][:get] %>";
+      postgres_query   HEAD GET "<%= @route[:handlers][:get] %>";
       postgres_rewrite HEAD GET no_rows 404;
-    <%# end %>
-    <% unless route[:handlers][:put].nil? %>
+    <% end %>
+    <% unless @route[:handlers][:put].nil? %>
       # PUT
       # usage: CURL -X PUT "http://localhost:8888/cats/1?name=Hot Wiskerz&about=Sweatin & meowin"
-      <% escape_params(route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
+      <% escape_params(@route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
       <% end %>
-      postgres_query   PUT "<%= route[:handlers][:put] %>";
+      postgres_query   PUT "<%= @route[:handlers][:put] %>";
       postgres_rewrite PUT no_changes 410;
     <% end %>
-    <% unless route[:handlers][:delete].nil? %>
+    <% unless @route[:handlers][:delete].nil? %>
       # DELETE
-      # usage: curl -X DELETE http://localhost:8888/<%= route[:name] %>/1
-      postgres_query   DELETE "<%= route[:handlers][:delete] %>";
+      # usage: curl -X DELETE http://localhost:8888/<%= @route[:name] %>/1
+      postgres_query   DELETE "<%= @route[:handlers][:delete] %>";
       postgres_rewrite DELETE no_changes 410;
       postgres_rewrite DELETE changes 204;
     <% end %>
     }
-  <%# end %>
+  <% end %>
