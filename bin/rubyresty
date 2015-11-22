@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'thor'
+require './lib/cli/commands.rb'
 
-Dir['./lib/cli/cli.rb'].sort.each { |f| load f }
-
-#CLI::Generate.start(ARGV)
-# RubyResty::CLI.start(ARGV)
+CLI::Commands.start(ARGV)
