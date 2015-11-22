@@ -18,13 +18,13 @@ module RubyResty
     end
 
     Routes.routes.each do |route|
-      @partials = []
       @names    = []
-      @route    = route[1]
+      @names    << route[0]
+      @route    = route[-1]
       content   = route_template.result(binding)
       File.open("lib/nginx/conf/_#{route[0].to_s}_route", "w") { |file| file.puts content }
+      @partials = []
       @partials << content
-      @names << @route[:name]
     end
 
     def self.template(type)

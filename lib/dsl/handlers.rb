@@ -5,6 +5,7 @@ module RubyResty
   class Handlers < Sequel::Model
     class << self
       Sequel.extension :inflector
+
       def escape_params(params)
         hashed_params = []
         params.each { |param| hashed_params << [param.to_sym, "$escaped_#{param.to_s}"] }
@@ -22,6 +23,7 @@ module RubyResty
           self.class.instance_eval(&block).tr(%q{"'}, '')
         end
       end
+
     end
   end
 end

@@ -17,4 +17,4 @@ module RubyResty
     end
   end
 end
-ROUTES = RubyResty::RoutesDSL
+Resty = RubyResty::RoutesDSL

@@ -1,4 +1,4 @@
-  location /<%= @route[:name] %> {
+  location /<%= @names[0] %> {
       postgres_pass database;
       rds_json on;
       rds_json_root 'data';
@@ -18,7 +18,7 @@
     <% end %>
     }
   <% unless @route[:handlers][:get].nil? || @route[:handlers][:put].nil? || @route[:handlers][:delete].nil? %>
-    location ~ /<%= @route[:name] %>/(?<id>\d+) {
+    location ~ /<%= @names[0] %>/(?<id>\d+) {
       postgres_pass database;
       rds_json on;
       rds_json_root 'data';
