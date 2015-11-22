@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+
+Dir['./lib/cli/cli.rb'].sort.each { |f| load f }
+
+#CLI::Generate.start(ARGV)
+# RubyResty::CLI.start(ARGV)

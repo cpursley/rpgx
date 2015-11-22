@@ -13,12 +13,10 @@ With this setup, Ruby is used similar to a static generator and not needed at ru
 - brew install homebrew/nginx/openresty --with-postgresql
 - Seed database: `$ psql -U chase -f db/catdb.sql`
 - Create the routes: `$ ruby routes.rb`
+- Create migration: `$rubyresty migration cats` (.bin/rubyresty bash_profile alias necessary)
 - Start: sudo openresty -p `pwd`/ -c conf/nginx.conf
 - Stop: sudo openresty -s stop
-
 
 ## TODO
 
 - [ ] Dockerize for easy bootstrapping
-- [ ] Choose Ruby ORM for creating models, functions & queries
-- [ ] Create Ruby DSL and templating that compiles to nginx.conf file

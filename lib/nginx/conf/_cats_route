@@ -5,7 +5,7 @@
     
       # GET
       # usage: CURL http://localhost:8888/
-      postgres_query GET "SELECT * FROM cats_view";
+      postgres_query GET "SELECT * FROM cats";
       postgres_rewrite HEAD GET no_rows 404;
     
     

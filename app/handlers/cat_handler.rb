@@ -1,46 +1,16 @@
-require 'active_record'
-require 'sequel'
-require './config/database.rb'
+require './lib/dsl/handlers.rb'
 
-class CatHandler < Sequel::Model
-  @cats   = self.from(:cats)
-  @params = %w(name karma vip)
-  @id = ['id']
+class CatHandler < RubyResty::Handlers
+  model :cat
 
-  def self.get_cats
-    resty DB[:cats_view].sql
-  end
-
-  def self.create_cat
-    resty @cats.insert_sql(hash_params(@params))
-  end
-
-  def self.get_cat
-    resty @cats.where(hash_params(@id)).sql
-  end
-
-  def self.update_cat
-    resty @cats.where(hash_params(@id)).update_sql(hash_params(@params))
-  end
-
-  def self.delete_cat
-    resty @cats.where(hash_params(@id)).delete_sql
-  end
-
-  # turn into let
-  def self.params
-    @params
-  end
+  handler(:get_cats)   { @cats.sql }
+  handler(:create_cat) { @cats.insert_sql(escape_params(cat_params)) }
+  handler(:get_cat)    { @cats.where(@cat_id).sql }
+  handler(:update_cat) { @cats.where(@cat_id).update_sql(escape_params(cat_params)) }
+  handler(:delete_cat) { @cats.where(@cat_id).delete_sql }
 
   private
-  # handler utility methods ~ move to lib library module
-  def self.resty(query)
-    query.tr(%q{"'}, '')
-  end
-
-  def self.hash_params(params)
-    hashed_params = []
-    params.each { |param| hashed_params << [param.to_sym, "$escaped_#{param.to_s}"] }
-    hashed_params.to_h
+  def self.cat_params
+    %w(name karma vip)
   end
 end
