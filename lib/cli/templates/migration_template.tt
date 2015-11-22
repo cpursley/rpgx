@@ -1,0 +1,12 @@
+# Migration: <%= "#{version}" %>
+
+Sequel.migration do
+  up do
+    # DB.create_table :table_name do
+    # end
+  end
+
+  down do
+    # drop_table :table_name
+  end
+end
