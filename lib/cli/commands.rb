@@ -21,7 +21,7 @@ module CLI
           puts "<= #{e}", :red
         end
       else
-        say "<= Routes not built. Please run 'rake build:routes' first", :red
+        say "<= Routes not built. Please run 'rake routes:build' first", :red
       end
     end
 

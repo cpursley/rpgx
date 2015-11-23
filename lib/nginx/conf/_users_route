@@ -1,0 +1,48 @@
+  location /users {
+      postgres_pass database;
+      rds_json on;
+      rds_json_root 'data';
+    
+      # GET
+      # usage: CURL http://localhost:8888/users
+      postgres_query GET "SELECT * FROM users";
+      postgres_rewrite HEAD GET no_rows 404;
+    
+    
+      # POST
+      # usage: CURL -X POST "http://localhost:8888/users?name=9livez&about=I've got nine lives"
+      postgres_escape $escaped_username $arg_username;
+      
+      postgres_query   POST   "INSERT INTO users (username) VALUES ($escaped_username)";
+      postgres_rewrite POST   changes 201;
+    
+    }
+  
+    location ~ /users/(?<id>\d+) {
+      postgres_pass database;
+      rds_json on;
+      rds_json_root 'data';
+    
+      # GET
+      # usage: CURL http://localhost:8888/users/1
+      postgres_escape  $escaped_id $id;
+      postgres_query   HEAD GET "SELECT * FROM users WHERE (id = $escaped_id)";
+      postgres_rewrite HEAD GET no_rows 404;
+    
+    
+      # PUT
+      # usage: CURL -X PUT "http://localhost:8888/cats/1?name=Hot Wiskerz&about=Sweatin & meowin"
+      postgres_escape $escaped_username $arg_username;
+      
+      postgres_query   PUT "UPDATE users SET username = $escaped_username WHERE (id = $escaped_id)";
+      postgres_rewrite PUT no_changes 410;
+    
+    
+      # DELETE
+      # usage: curl -X DELETE http://localhost:8888//1
+      postgres_query   DELETE "DELETE FROM users WHERE (id = $escaped_id)";
+      postgres_rewrite DELETE no_changes 410;
+      postgres_rewrite DELETE changes 204;
+    
+    }
+  

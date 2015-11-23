@@ -17,13 +17,13 @@ module RubyResty
       ERB.new(File.read("lib/nginx/conf/_route.erb"))
     end
 
+    @names    = []
+    @partials = []
     Routes.routes.each do |route|
-      @names    = []
-      @names    << route[0]
-      @route    = route[-1]
-      content   = route_template.result(binding)
+      @route   = route[-1]
+      @names   << @route[:route]
+      content = route_template.result(binding)
       File.open("lib/nginx/conf/_#{route[0].to_s}_route", "w") { |file| file.puts content }
-      @partials = []
       @partials << content
     end
 

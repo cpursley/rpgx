@@ -1,19 +1,31 @@
 module Routes
   def self.routes
-    cat_handler = CatHandler.new
+    tweet_handler = TweetHandler.new
+    user_handler  = UserHandler.new
 
     Resty.build do
-      cats do
-        params   %w(name karma vip)
+      tweets do
+        route    :tweets
+        params   %w(post)
         handlers do
-          get_all cat_handler.get_cats
-          post    cat_handler.create_cat
-          get     cat_handler.get_cat
-          put     cat_handler.update_cat
-          delete  cat_handler.delete_cat
+          get_all tweet_handler.get_tweets
+          post    tweet_handler.create_tweet
+          get     tweet_handler.get_tweet
+          put     tweet_handler.update_tweet
+          delete  tweet_handler.delete_tweet
         end
       end
-
+      users do
+        route    :users
+        params   %w(username)
+        handlers do
+          get_all user_handler.get_users
+          post    user_handler.create_user
+          get     user_handler.get_user
+          put     user_handler.update_user
+          delete  user_handler.delete_user
+        end
+      end
     end
   end
 end

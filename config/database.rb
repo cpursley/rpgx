@@ -6,7 +6,7 @@ Config = {
     password: '',
     host:     'localhost',
     port:     '5432',
-    name:     'petsdb'
+    name:     'tweeter'
   }
 }
 

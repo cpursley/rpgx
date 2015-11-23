@@ -1,5 +1,97 @@
 #!/usr/bin/env ruby
 
+require 'celluloid/current'
+require 'logger'
 require './lib/cli/commands.rb'
 
 CLI::Commands.start(ARGV)
+
+# class Counter
+#   include Celluloid
+#   attr_reader :count
+#
+#   def initialize
+#     @count = 0
+#   end
+#
+#   def increment(n = 1)
+#     @count += n
+#   end
+# end
+
+if $logger.nil?
+  $logger = Logger.new STDOUT
+  $logger.level = Logger::DEBUG
+  $logger.datetime_format = '%Y-%m-%d %H:%M:%S%z '
+end
+
+
+# 50.times do |i|
+#   actor = Counter.new
+#   actor.count
+#   actor.increment
+#   actor.async.increment i
+#   @logger.info actor.count
+# end
+#
+# class HelloSpaceActor
+#   include Celluloid
+#   def say_msg
+#     $logger.info "Hello, "
+#     Celluloid::Actor[:world].say_msg
+#   end
+# end
+#
+# class WorldActor
+#   include Celluloid
+#   def say_msg
+#     $logger.info "world!"
+#     Celluloid::Actor[:newline].say_msg
+#   end
+# end
+#
+# class NewlineActor
+#   include Celluloid
+#   def say_msg
+#     print "\n"
+#   end
+# end
+#
+# Celluloid::Actor[:world] = WorldActor.new
+# Celluloid::Actor[:newline] = NewlineActor.new
+# HelloSpaceActor.new.say_msg
+
+### ----
+#
+# require 'celluloid/autostart'
+# require 'reel'
+#
+# class RubyResty < Reel::Server::HTTP
+#   def initialize(host = "127.0.0.1", port = 3000)
+#     super(host, port, &method(:on_connection))
+#   end
+#
+#   def on_connection(connection)
+#     connection.each_request do |request|
+#       if request.websocket?
+#         handle_websocket(request.websocket)
+#       else
+#         handle_request(request)
+#       end
+#     end
+#   end
+#
+#   def handle_request(request)
+#     request.respond :ok, "Hello, world!"
+#     $logger.info request.path
+#   end
+#
+#   def handle_websocket(sock)
+#     sock << "Hello everyone out there in WebSocket land!"
+#     sock.close
+#   end
+# end
+#
+# RubyResty.run
+
+### ----
