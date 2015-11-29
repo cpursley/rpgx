@@ -19,6 +19,10 @@ Name: RubyResty ?
 
 - http://www.postgresql.org/docs/9.3/static/pgcrypto.html
 
+- pg_auth:
+  - http://rob.conery.io/2015/03/17/membership-in-a-box-with-pg-auth/
+  - https://github.com/robconery/pg-auth
+
 ### ActiveRecord
 
 - https://stackoverflow.com/questions/4405471/how-to-define-a-unique-constraint-on-a-column-of-mysql-table-in-ruby-on-rails (add constraint right db itself)
@@ -61,6 +65,8 @@ Name: RubyResty ?
 
 - http://openresty.org/download/agentzh-nginx-tutorials-en.html
 
+- https://github.com/bungle/awesome-resty
+
 ### Other interesting things:
 
 - http://file.bestmx.net/ee/articles/DB_is_enough.pdf
@@ -72,3 +78,5 @@ Name: RubyResty ?
 - https://github.com/webnuts/post_json
 
 - https://github.com/openresty/headers-more-nginx-module
+
+- http://www.aosabook.org/en/nginx.html
