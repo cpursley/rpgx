@@ -17,7 +17,7 @@ module Routes
       end
       users do
         route    :users
-        params   %w(username)
+        params   %w(name)
         handlers do
           get_all user_handler.get_users
           post    user_handler.create_user

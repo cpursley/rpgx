@@ -11,6 +11,6 @@ class UserHandler < RubyResty::Handlers
 
   private
   def self.user_params
-    escape_params %w(username)
+    escape_params %w(name)
   end
 end

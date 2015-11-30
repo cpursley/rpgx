@@ -17,3 +17,5 @@ DB = Sequel.postgres(
   port:     Config[:database][:port],
   database: Config[:database][:name]
 )
+
+Sequel.extension :constraint_validations
