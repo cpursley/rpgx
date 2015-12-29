@@ -69,6 +69,8 @@ Name: RubyResty ?
 
 ### Other interesting things:
 
+- https://sivers.org/pg
+
 - http://file.bestmx.net/ee/articles/DB_is_enough.pdf
 
 - http://file.bestmx.net/ee/articles/sql-error-reporting.pdf

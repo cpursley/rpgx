@@ -5,6 +5,7 @@ ruby '2.2.0'
 # Framework
 # gem 'celluloid'
 # gem 'celluloid-io-pg-listener'
+gem 'pry'
 
 # Database
 gem 'pg'

@@ -11,6 +11,6 @@ class TweetHandler < RubyResty::Handlers
 
   private
   def self.tweet_params
-    escape_params %w(post)
+    escape_params %w(user_id post)
   end
 end

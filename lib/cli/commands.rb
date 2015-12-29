@@ -1,9 +1,23 @@
+require 'sequel'
+require 'pry'
 require 'thor'
+require './config/database.rb'
+
 module CLI
   class Commands < Thor
     include Thor::Actions
 
-    # OpenResty Server
+    # RubyResty Console
+    desc "console", "Start the RubyResty console."
+    def console
+      begin
+        DB.pry
+      rescue Thor::UndefinedCommandError => e
+        say "<= There was an issue starting the RubyResty console: #{e}", :red
+      end
+    end
+
+    # RubyResty Server
     desc "start", "Start the openresty server."
     def start
       conf_path = nginx_path + "/conf/nginx.conf"

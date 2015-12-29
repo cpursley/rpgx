@@ -4,13 +4,11 @@
       rds_json_root 'data';
     <% unless @route[:handlers][:get_all].nil? %>
       # GET
-      # usage: CURL http://localhost:8888/<%= @route[:route] %>
       postgres_query GET "<%= @route[:handlers][:get_all] %>";
       postgres_rewrite HEAD GET no_rows 404;
     <% end %>
     <% unless @route[:handlers][:post].nil? %>
       # POST
-      # usage: CURL -X POST "http://localhost:8888/<%= @route[:route] %>?name=9livez&about=I've got nine lives"
       <% escape_params(@route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
       <% end %>
       postgres_query   POST   "<%= @route[:handlers][:post] %>";
@@ -24,14 +22,12 @@
       rds_json_root 'data';
     <% unless @route[:handlers][:get].nil? %>
       # GET
-      # usage: CURL http://localhost:8888/<%= @route[:route] %>/1
       postgres_escape  $escaped_id $id;
       postgres_query   HEAD GET "<%= @route[:handlers][:get] %>";
       postgres_rewrite HEAD GET no_rows 404;
     <% end %>
     <% unless @route[:handlers][:put].nil? %>
       # PUT
-      # usage: CURL -X PUT "http://localhost:8888/cats/1?name=Hot Wiskerz&about=Sweatin & meowin"
       <% escape_params(@route[:params]).each do |param| %><%= "postgres_escape #{param};" %>
       <% end %>
       postgres_query   PUT "<%= @route[:handlers][:put] %>";
@@ -39,7 +35,6 @@
     <% end %>
     <% unless @route[:handlers][:delete].nil? %>
       # DELETE
-      # usage: curl -X DELETE http://localhost:8888/<%= @route[:name] %>/1
       postgres_query   DELETE "<%= @route[:handlers][:delete] %>";
       postgres_rewrite DELETE no_changes 410;
       postgres_rewrite DELETE changes 204;

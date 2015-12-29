@@ -6,7 +6,7 @@ module Routes
     Resty.build do
       tweets do
         route    :tweets
-        params   %w(post)
+        params   %w(user_id post)
         handlers do
           get_all tweet_handler.get_tweets
           post    tweet_handler.create_tweet
@@ -15,6 +15,7 @@ module Routes
           delete  tweet_handler.delete_tweet
         end
       end
+
       users do
         route    :users
         params   %w(name)
