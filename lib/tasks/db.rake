@@ -1,20 +1,18 @@
 require 'colorize'
 require 'sequel'
-require './config/database.rb'
+require './lib/config/database.rb'
 
 namespace :db do
   require 'sequel'
   namespace :migrate do
     Sequel.extension :migration
-    db   = Config[:database]
-    opts = DB.opts
 
     desc "Create database if does not exist"
     task :create do
       begin
-        system "createdb #{db[:name]} -h #{db[:host]} -p #{db[:port]} -U #{db[:user]}"
+        system "createdb #{DB.opts[:name]} -h #{DB.opts[:host]} -p #{DB.opts[:port]} -U #{DB.opts[:user]}"
         if $?.exitstatus == 0
-          puts "<= #{db[:database]} database has been successfully created!".colorize(:green)
+          puts "<= #{DB.opts[:database]} database has been successfully created!".colorize(:green)
         end
       rescue Sequel::DatabaseError => e
         puts "<= #{e}".colorize(:red)
@@ -24,9 +22,9 @@ namespace :db do
     desc "Drop database if it exists"
     task :drop do
       begin
-        system "dropdb -h #{opts[:host]} -p #{opts[:port]} -U #{opts[:user]} #{opts[:database]}"
+        system "dropdb -h #{DB.opts[:host]} -p #{DB.opts[:port]} -U #{DB.opts[:user]} #{DB.opts[:database]}"
         if $?.exitstatus == 0
-          puts "<= #{opts[:database]} database has been successfully dropped!".colorize(:green)
+          puts "<= #{DB.opts[:database]} database has been successfully dropped!".colorize(:green)
         end
       rescue Sequel::DatabaseError => e
         puts "<= #{e}".colorize(:red)
@@ -37,7 +35,7 @@ namespace :db do
     task :up do
       begin
         Sequel::Migrator.run(DB, "db/migrations")
-        puts "<= #{db[:database]} database has been successfully migrated up".colorize(:green)
+        puts "<= #{DB.opts[:database]} database has been successfully migrated up".colorize(:green)
       rescue Sequel::DatabaseError => e
         puts "<= #{e}".colorize(:red)
       end
@@ -47,7 +45,7 @@ namespace :db do
     task :down do
       begin
         Sequel::Migrator.run(DB, "db/migrations", :target => 0)
-        puts "<= #{db[:database]} database has been successfully migrated down".colorize(:green)
+        puts "<= #{DB.opts[:database]} database has been successfully migrated down".colorize(:green)
       rescue Sequel::DatabaseError => e
         puts "<= #{e}".colorize(:red)
       end
@@ -58,7 +56,7 @@ namespace :db do
       begin
         Sequel::Migrator.run(DB, "db/migrations", :target => 0)
         Sequel::Migrator.run(DB, "db/migrations")
-        puts "<= #{db[:database]} database has been successfully reset".colorize(:green)
+        puts "<= #{DB.opts[:database]} database has been successfully reset".colorize(:green)
       rescue Sequel::DatabaseError => e
         puts "<= #{e}".colorize(:red)
       end
@@ -71,7 +69,7 @@ namespace :db do
         Rake::Task["db:migrate:#{task}"].invoke
       end
       Rake::Task["db:seed"].invoke
-      puts "<= Successfully created, migrated and seeded #{opts[:database]}".colorize(:green)
+      puts "<= Successfully created, migrated and seeded #{DB.opts[:database]}".colorize(:green)
     end
   end
 end

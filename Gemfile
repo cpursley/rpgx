@@ -6,6 +6,7 @@ ruby '2.2.0'
 # gem 'celluloid'
 # gem 'celluloid-io-pg-listener'
 gem 'pry'
+gem 'dotenv'
 
 # Database
 gem 'pg'

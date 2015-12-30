@@ -1,7 +1,7 @@
 require 'colorize'
 require 'erb'
 require 'sequel'
-require './config/database.rb'
+require './lib/config/database.rb'
 require './app/routes.rb'
 require './lib/dsl/routes_dsl.rb'
 require 'require_all'

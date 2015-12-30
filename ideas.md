@@ -19,13 +19,13 @@ Name: RubyResty ?
 
 - http://www.postgresql.org/docs/9.3/static/pgcrypto.html
 
+- http://shuber.io/porting-activerecord-validations-to-postgres/
+
 - pg_auth:
   - http://rob.conery.io/2015/03/17/membership-in-a-box-with-pg-auth/
   - https://github.com/robconery/pg-auth
 
 ### ActiveRecord
-
-- https://stackoverflow.com/questions/4405471/how-to-define-a-unique-constraint-on-a-column-of-mysql-table-in-ruby-on-rails (add constraint right db itself)
 
 - https://github.com/jenseng/hair_trigger
 
@@ -49,8 +49,6 @@ Name: RubyResty ?
 
 - http://patshaughnessy.net/2014/9/23/how-arel-converts-ruby-queries-into-sql-statements
 
-- http://shuber.io/porting-activerecord-validations-to-postgres/
-
 - https://github.com/vprokopchuk256/mv-postgresql (Postgresql constraints in migrations similar to ActiveRecord validations. Works by adding constraint and trigger in migration file. Really neat!)
 
 - https://engineering.tilt.com/7-postgresql-data-migration-hacks/
@@ -59,13 +57,34 @@ Name: RubyResty ?
 
 - https://github.com/makandra/edge_rider
 
+### nginx
+
+- http://aosabook.org/en/nginx.html
+
+- https://github.com/fcambus/nginx-resources
+
+- https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/
+
 ### OpenResty/nginx
+
+- https://github.com/bungle/awesome-resty
 
 - http://www.staticshin.com/programming/definitely-an-open-resty-guide/
 
 - http://openresty.org/download/agentzh-nginx-tutorials-en.html
 
-- https://github.com/bungle/awesome-resty
+- https://github.com/Lumate/lua-nginx-logging
+
+- https://github.com/matsumoto-r/ngx_mruby
+
+
+### Authentication & Authorization
+
+- https://github.com/auth0/nginx-jwt
+
+- https://github.com/SkyLothar/lua-resty-jwt
+
+- https://github.com/openresty/headers-more-nginx-module
 
 ### Other interesting things:
 
@@ -78,7 +97,5 @@ Name: RubyResty ?
 - http://file.bestmx.net/ee/tutorial/
 
 - https://github.com/webnuts/post_json
-
-- https://github.com/openresty/headers-more-nginx-module
 
 - http://www.aosabook.org/en/nginx.html

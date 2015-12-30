@@ -1,5 +1,5 @@
 require 'sequel'
-require './config/database.rb'
+require './lib/config/database.rb'
 
 module RubyResty
   class Handlers < Sequel::Model

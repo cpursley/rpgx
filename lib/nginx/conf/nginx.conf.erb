@@ -7,7 +7,7 @@ events {
 
 http {
   upstream database {
-    postgres_server 127.0.0.1 dbname=<%= Config[:database][:name] %> user=<%= Config[:database][:user] %> password=<%= Config[:database][:password]%>;
+    postgres_server 127.0.0.1 dbname=<%= DB.opts[:database] %> user=<%= DB.opts[:user] %> password=<%= DB.opts[:password]%>;
   }
 
   server {

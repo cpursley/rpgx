@@ -1,7 +1,7 @@
 require 'colorize'
 require 'forgery'
 require 'sequel'
-require './config/database.rb'
+require './lib/config/database.rb'
 
 begin
   # Users

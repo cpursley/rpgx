@@ -1,7 +1,7 @@
 require 'sequel'
 require 'pry'
 require 'thor'
-require './config/database.rb'
+require './lib/config/database.rb'
 
 module CLI
   class Commands < Thor
@@ -11,6 +11,7 @@ module CLI
     desc "console", "Start the RubyResty console."
     def console
       begin
+        DB.loggers << Logger.new($stdout)
         DB.pry
       rescue Thor::UndefinedCommandError => e
         say "<= There was an issue starting the RubyResty console: #{e}", :red

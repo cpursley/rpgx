@@ -4,16 +4,15 @@
       rds_json_root 'data';
     
       # GET
-      # usage: CURL http://localhost:8888/tweets
       postgres_query GET "SELECT * FROM tweets";
       postgres_rewrite HEAD GET no_rows 404;
     
     
       # POST
-      # usage: CURL -X POST "http://localhost:8888/tweets?name=9livez&about=I've got nine lives"
+      postgres_escape $escaped_user_id $arg_user_id;
       postgres_escape $escaped_post $arg_post;
       
-      postgres_query   POST   "INSERT INTO tweets (post) VALUES ($escaped_post)";
+      postgres_query   POST   "INSERT INTO tweets (user_id, post) VALUES ($escaped_user_id, $escaped_post)";
       postgres_rewrite POST   changes 201;
     
     }
@@ -24,22 +23,20 @@
       rds_json_root 'data';
     
       # GET
-      # usage: CURL http://localhost:8888/tweets/1
       postgres_escape  $escaped_id $id;
       postgres_query   HEAD GET "SELECT * FROM tweets WHERE (id = $escaped_id)";
       postgres_rewrite HEAD GET no_rows 404;
     
     
       # PUT
-      # usage: CURL -X PUT "http://localhost:8888/cats/1?name=Hot Wiskerz&about=Sweatin & meowin"
+      postgres_escape $escaped_user_id $arg_user_id;
       postgres_escape $escaped_post $arg_post;
       
-      postgres_query   PUT "UPDATE tweets SET post = $escaped_post WHERE (id = $escaped_id)";
+      postgres_query   PUT "UPDATE tweets SET user_id = $escaped_user_id, post = $escaped_post WHERE (id = $escaped_id)";
       postgres_rewrite PUT no_changes 410;
     
     
       # DELETE
-      # usage: curl -X DELETE http://localhost:8888//1
       postgres_query   DELETE "DELETE FROM tweets WHERE (id = $escaped_id)";
       postgres_rewrite DELETE no_changes 410;
       postgres_rewrite DELETE changes 204;
